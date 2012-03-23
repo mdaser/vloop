@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- (c) Copyright 2012 by Martin Daser -->
 <resources>
 
     <string name="buddies">Intel and Android, best Buddies!</string>
     <string name="app_name">Vloop</string>
+    <string name="Restart">Restarting Video</string>
 
 </resources>
