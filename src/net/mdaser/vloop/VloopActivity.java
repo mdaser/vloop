@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -34,6 +36,9 @@ public class VloopActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
+        
+        setFullScreen(true);
+        
         this.setContentView(R.layout.main);
 
         VideoView videoView = (VideoView)this.findViewById(R.id.videoView);
@@ -51,4 +56,13 @@ public class VloopActivity extends Activity {
         videoView.start();
     }
     
+    private void setFullScreen(boolean fullScreen) {
+    	int featureId = fullScreen ? Window.FEATURE_NO_TITLE : Window.FEATURE_LEFT_ICON;
+    	int flag      = fullScreen ? WindowManager.LayoutParams.FLAG_FULLSCREEN : WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN;
+    	int mask      = fullScreen ? WindowManager.LayoutParams.FLAG_FULLSCREEN : WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN;
+    	
+        requestWindowFeature(featureId);
+
+        getWindow().setFlags(flag, mask); 
+    }
 }
