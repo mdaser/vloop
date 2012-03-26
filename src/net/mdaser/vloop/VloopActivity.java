@@ -48,7 +48,9 @@ public class VloopActivity extends Activity {
         
         this.setContentView(R.layout.main);
 
+        
         VideoView videoView = (VideoView)this.findViewById(R.id.videoView);
+        
         MediaController mc = new MediaController(this);
         videoView.setMediaController(mc);
         
