@@ -4,9 +4,9 @@
 package net.mdaser.vloop;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.MediaController;
@@ -16,17 +16,24 @@ import android.media.MediaPlayer;
 
 public class VloopActivity extends Activity {
 	
+	private static final String TAG = "vloop";
+	
 	class CompletionHandler implements MediaPlayer.OnCompletionListener
-	{
+	{	
 		@Override
 		public void onCompletion(MediaPlayer mp) {
 			
 			// show a toast ... restarting
+			/**
 			Context context = getApplicationContext();
 			Toast toast = Toast.makeText(context, R.string.Restart, Toast.LENGTH_SHORT);
 			toast.show();
+			**/
+			
+			Log.i(TAG, "seek to begin and restart media player");
 			
 			// restart the media player
+			mp.seekTo(0);
 			mp.start();
 		}
     }

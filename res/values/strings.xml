@@ -2,7 +2,7 @@
 <!-- (c) Copyright 2012 by Martin Daser -->
 <resources>
 
-    <string name="buddies">Intel and Android, best Buddies!</string>
+    <string name="Logo">Logo</string>
     <string name="app_name">Vloop</string>
     <string name="Restart">Restarting Video</string>
 
