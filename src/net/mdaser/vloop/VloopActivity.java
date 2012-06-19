@@ -9,35 +9,24 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.MediaController;
-import android.widget.Toast;
 import android.widget.VideoView;
 import android.media.MediaPlayer;
+/**
+import android.widget.MediaController;
+**/
 
-public class VloopActivity extends Activity {
+
+public class VloopActivity extends Activity 
+						   implements MediaPlayer.OnCompletionListener,  
+						    MediaPlayer.OnPreparedListener {
 	
 	private static final String TAG = "vloop";
+	// private static final String uri = "android.resource://net.mdaser.vloop/" + R.raw.video;
+	// "http://www.androidbook.com/akc/filestorage/android/documentfiles/3389/movie.mp4"
+	private static final String path = "/sdcard/Videos/video.mp4";
 	
-	class CompletionHandler implements MediaPlayer.OnCompletionListener
-	{	
-		@Override
-		public void onCompletion(MediaPlayer mp) {
-			
-			// show a toast ... restarting
-			/**
-			Context context = getApplicationContext();
-			Toast toast = Toast.makeText(context, R.string.Restart, Toast.LENGTH_SHORT);
-			toast.show();
-			**/
-			
-			Log.i(TAG, "seek to begin and restart media player");
-			
-			// restart the media player
-			mp.seekTo(0);
-			mp.start();
-		}
-    }
-	
+	VideoView mVideoView;
+	Uri       mUri;
 	
     /** Called when the activity is first created. */
     @Override
@@ -47,22 +36,24 @@ public class VloopActivity extends Activity {
         setFullScreen(true);
         
         this.setContentView(R.layout.main);
+ 
+        mVideoView = (VideoView)this.findViewById(R.id.videoView);
 
-        
-        VideoView videoView = (VideoView)this.findViewById(R.id.videoView);
-        
+        /** not really required for playing in a loop
         MediaController mc = new MediaController(this);
-        videoView.setMediaController(mc);
+        mVideoView.setMediaController(mc);
+        **/
+
+        // mUri = Uri.parse(uri);
+        // mVideoView.setVideoURI(mUri);             
+ 
+        mVideoView.setVideoPath(path);
         
-        String path = "android.resource://net.mdaser.vloop/" + R.raw.video;
-        // "http://www.androidbook.com/akc/filestorage/android/documentfiles/3389/movie.mp4"));
-        videoView.setVideoURI(Uri.parse(path));             
-        // videoView.setVideoPath("/sdcard/movie.mp4");
-        
-        videoView.setOnCompletionListener(new CompletionHandler());
-        
-        videoView.requestFocus();
-        videoView.start();
+        // mVideoView.setOnPreparedListener(this);
+        mVideoView.setOnCompletionListener(this);
+
+        mVideoView.requestFocus();
+        mVideoView.start();
     }
     
     private void setFullScreen(boolean fullScreen) {
@@ -74,4 +65,30 @@ public class VloopActivity extends Activity {
 
         getWindow().setFlags(flag, mask); 
     }
+    
+	
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		
+		Log.i(TAG, "video view: new uri and start");
+		// mVideoView.setVideoURI(mUri);
+		mVideoView.setVideoPath(path);
+		mVideoView.start();
+		
+		/**
+		Log.i(TAG, "seek to 0");
+		mVideoView.seekTo(0);
+		mp.seekTo(0);
+		
+		Log.i(TAG, "re-start");
+		mVideoView.start();
+		mp.start();
+		**/
+	}
+
+	@Override
+	public void onPrepared(MediaPlayer mp) {
+		Log.i(TAG, "set media player to looping state");
+		mp.setLooping(true);
+	}
 }
