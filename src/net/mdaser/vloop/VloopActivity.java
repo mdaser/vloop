@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.VideoView;
@@ -43,17 +45,62 @@ public class VloopActivity extends Activity
         MediaController mc = new MediaController(this);
         mVideoView.setMediaController(mc);
         **/
-
-        // mUri = Uri.parse(uri);
-        // mVideoView.setVideoURI(mUri);             
- 
-        mVideoView.setVideoPath(path);
         
         // mVideoView.setOnPreparedListener(this);
         mVideoView.setOnCompletionListener(this);
 
+        // startVideo(path);
+        
         mVideoView.requestFocus();
-        mVideoView.start();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+    	super.onCreateOptionsMenu(menu);
+    	
+    	menu.add(0, 1, 0, R.string.setVideo);
+    	menu.add(0, 2, 1, R.string.start);
+    	menu.add(0, 3, 2, R.string.stop);
+    	
+    	return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+    	boolean ret = false;
+    	int i = item.getItemId();
+    	
+    	switch(i)
+    	{
+    	case 1: ret = true;
+    			break;
+    	case 2: startVideo(path);
+    			ret = true;
+    			break;
+    	case 3: stopVideo();
+    			ret = true;
+    		 	break;
+    	default:
+    			ret = super.onOptionsItemSelected(item);
+    			break;
+    	}
+    	
+    	return ret;
+    }
+    
+    private void startVideo(String path)
+    {
+    	Log.i(TAG, "StartVideo");
+    	mVideoView.setVideoPath(path);
+    	mVideoView.start();
+    }
+    
+    private void stopVideo()
+    {
+    	Log.i(TAG, "StopVideo");
+    	mVideoView.stopPlayback();
     }
     
     private void setFullScreen(boolean fullScreen) {
@@ -70,10 +117,9 @@ public class VloopActivity extends Activity
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		
-		Log.i(TAG, "video view: new uri and start");
-		// mVideoView.setVideoURI(mUri);
-		mVideoView.setVideoPath(path);
-		mVideoView.start();
+		Log.i(TAG, "onCompletion");
+		
+		startVideo(path);
 		
 		/**
 		Log.i(TAG, "seek to 0");

@@ -5,5 +5,8 @@
     <string name="Logo">Logo</string>
     <string name="app_name">Vloop</string>
     <string name="Restart">Restarting Video</string>
+    <string name="setVideo">Set Video</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 
 </resources>
